@@ -16,7 +16,7 @@ class HomePage extends React.Component {
             <Navbar bg="dark" variant="dark" expand="lg">
               <Navbar.Brand href="#home" onClick={() => this.setState({ currentTab: 'drafts' })}>Historic Magic 'Enchant Worldle'</Navbar.Brand>
             </Navbar>
-            <div>FOO
+            <div>FOOBAR
               {/* {this.state.currentTab === 'PD' ? <PDList /> : false}
               {this.state.currentTab === 'PTR' ? <PTRList /> : false} */}
             </div>
