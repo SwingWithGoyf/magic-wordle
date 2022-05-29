@@ -21,3 +21,8 @@ code {
 .navbar-brand {
   font-size: 28px;
 }
+
+.cardGuess {
+  font-size: 32px;
+  width: 50%;
+}

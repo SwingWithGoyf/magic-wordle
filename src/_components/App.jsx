@@ -6,6 +6,12 @@ import HomePage from './HomePage';
 
 class App extends React.Component {
 
+  constructor(props) {
+    super(props);
+    // initialize storage when the app starts
+    this.props.initStorage();
+  }
+
   render() {
     return (
       <BrowserRouter history={history}>
