@@ -1,32 +1,34 @@
-import { CreateTableIfNotExists, DeleteTable, InsertOrMergeEntity, AddDataInBatch } from "./StorageCommon"
+import { CreateTableIfNotExists, DeleteTable, AddDataInBatch, ListTables, QueryEntities } from "./StorageCommon";
+import moment from 'moment';
+const { odata } = require("@azure/data-tables");
 const CardTableName = "WordleCardList";
 
-export function AddCard(cardName, jsonCard, callback) {
-  let modifiedCardName = cardName;
-  if (modifiedCardName.includes('//')) {
-    modifiedCardName = modifiedCardName.substr(0, modifiedCardName.indexOf('//') - 1);
-  }
+// export function AddCard(cardName, jsonCard, callback) {
+//   let modifiedCardName = cardName;
+//   if (modifiedCardName.includes('//')) {
+//     modifiedCardName = modifiedCardName.substr(0, modifiedCardName.indexOf('//') - 1);
+//   }
   
-  const task = {
-    partitionKey: jsonCard.set,
-    rowKey: modifiedCardName,    
-    CardName: cardName,
-    Cmc: jsonCard.cmc,
-    //todo: colors (handle array)
-    Rarity: jsonCard.rarity,
-    Type: jsonCard.type_line,
-    ReleaseDate: jsonCard.released_at,
-    ScryfallUrl: jsonCard.uri
-  }
+//   const task = {
+//     partitionKey: jsonCard.set,
+//     rowKey: modifiedCardName,    
+//     CardName: cardName,
+//     Cmc: jsonCard.cmc,
+//     //todo: colors (handle array)
+//     Rarity: jsonCard.rarity,
+//     Type: jsonCard.type_line,
+//     ReleaseDate: jsonCard.released_at,
+//     ScryfallUrl: jsonCard.uri
+//   }
 
-  InsertOrMergeEntity(task, CardTableName, (error, result) => {
-    if (error) {
-      console.log(`Error inserting card: ${error}`);
-    }
-    callback(error, result);
-  });
+//   InsertOrMergeEntity(task, CardTableName, (error, result) => {
+//     if (error) {
+//       console.log(`Error inserting card: ${error}`);
+//     }
+//     callback(error, result);
+//   });
   
-}
+// }
 
 export function CacheCardsToStorage(allCards, callback) {
   if (!allCards) {
@@ -95,5 +97,45 @@ export function CacheCardsToStorage(allCards, callback) {
         });
       }      
     });    
+  });
+}
+
+export function GetCardsFromCache(callback) {
+  QueryEntities(null, CardTableName, (queryError, queryResults) => {
+    if (queryError) {
+      callback(queryError, false);
+    } else {
+      callback(null, queryResults);
+    }
+  });
+}
+
+export function NeedToRefreshCardCache(callback) {
+  ListTables(odata`TableName eq ${CardTableName}`, (error, results) => {
+    if (error) {
+      callback(error, false);
+    } else {
+      if (results && results.length === 0) {
+        callback(null, true); // table isn't present so need to refresh cache
+      } else {
+        QueryEntities(odata`RowKey eq 'Grizzly Bears'`, CardTableName, (queryError, queryResults) => {
+          if (queryError) {
+            callback(queryError, false);
+          } else {
+            if (queryResults && queryResults.length > 0) {
+              console.log(queryResults[0].timestamp);
+              var now = moment();
+              var before = moment(queryResults[0].timestamp);
+              var daysElapsed = now.diff(before, 'days');
+              if (daysElapsed >= 5) {
+                callback(null, true);
+              } else {
+                callback(null, false);
+              }
+            } 
+          }
+        });
+      }
+    }
   });
 }
