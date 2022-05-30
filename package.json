@@ -30,7 +30,7 @@
     "preinstall": "npx npm-force-resolutions",
     "start": "react-app-env start",
     "build": "react-app-env build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject"
   },
   "resolutions": {
