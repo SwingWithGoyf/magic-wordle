@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { initStorage } from '../_actions/storage_action';
 import AppComponent from '../_components/App'
 
 const mapStateToProps = state => {
@@ -7,11 +6,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    initStorage: () => {
-      dispatch(initStorage());
-    },
-  };
+  return {};
 }
 
 const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);

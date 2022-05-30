@@ -1,16 +1,5 @@
 const { TableServiceClient, TableClient } = require("@azure/data-tables");
-const CardTableName = "WordleCardList";
 const TableServiceUrl = "https://magicwordle.table.core.windows.net";
-
-export function InitStorage(callback) {
-  CreateTableIfNotExists(CardTableName, (createError) => {
-    if (createError) {
-      console.log(createError);
-      callback(createError);
-    }
-    callback(null);
-  });
-}
 
 // export async function InsertOrMergeEntity(task, tableName, callback) {
 //   const tableClient = new TableClient(`${TableServiceUrl}${process.env.REACT_APP_AZURE_STORAGE_TABLE_SAS_TOKEN}`, tableName);
