@@ -30,11 +30,11 @@ jobs:
       env:
         AZURE_STORAGE_TABLE_SAS_TOKEN: ${{ secrets.AZURESASTOKEN }}
       run: |
-        echo AZURE_STORAGE_TABLE_SAS_TOKEN="$AZURE_STORAGE_TABLE_SAS_TOKEN" > production.env
+        echo AZURE_STORAGE_TABLE_SAS_TOKEN=${{ secrets.AZURESASTOKEN }} > production.env
         echo "cat production.env"
         cat production.env
-        echo "ls -a ."
-        ls -a .
+        echo "ls -force ."
+        ls -force .
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test --passWithNoTest
