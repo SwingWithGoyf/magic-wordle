@@ -39,6 +39,31 @@ jobs:
       - run: npm run build --if-present
       - run: npm run test --if-present
 
+      - name: create React web.config
+        run: |
+          echo "<?xml version="1.0"?>" > ./build/web.config
+          echo "<configuration>" >> ./build/web.config
+          echo "<system.webServer>" >> ./build/web.config
+          echo "<rewrite>" >> ./build/web.config
+          echo "<rules>" >> ./build/web.config
+          echo "<rule name="React Routes" stopProcessing="true">" >> ./build/web.config
+          echo "<match url=".*" />" >> ./build/web.config
+          echo "<conditions logicalGrouping="MatchAll">" >> ./build/web.config
+          echo "<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />" >> ./build/web.config
+          echo "<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />" >> ./build/web.config
+          echo "<add input="{REQUEST_URI}" pattern="^/(api)" negate="true" />" >> ./build/web.config
+          echo "</conditions>" >> ./build/web.config
+          echo "<action type="Rewrite" url="/" />" >> ./build/web.config
+          echo "</rule>" >> ./build/web.config
+          echo "</rules>" >> ./build/web.config
+          echo "</rewrite>" >> ./build/web.config
+          echo "</system.webServer>" >> ./build/web.config
+          echo "</configuration>" >> ./build/web.config
+          echo "cat ./build/web.config"
+          cat ./build/web.config
+          echo "ls -force -r ./build"
+          ls -force -r ./build
+  
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
