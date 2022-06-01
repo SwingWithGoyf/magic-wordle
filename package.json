@@ -56,8 +56,12 @@
       "last 1 safari version"
     ]
   },
+  "compilerOptions": {
+    "paths": {
+      "react": [ "./node_modules/@types/react" ]
+    }
+  },
   "devDependencies": {
-
     "react-app-env": "^1.2.3"
   }
 }
