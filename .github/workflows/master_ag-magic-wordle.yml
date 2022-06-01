@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: '16.x'
 
-      - name: Create .env file
+      - name: Dynamically create .env file
         env:
           AZURE_STORAGE_TABLE_SAS_TOKEN: ${{ secrets.AZURESASTOKEN }}
         run: |
