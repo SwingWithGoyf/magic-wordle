@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -25,12 +25,11 @@ jobs:
         env:
           AZURE_STORAGE_TABLE_SAS_TOKEN: ${{ secrets.AZURESASTOKEN }}
         run: |
-          touch production.env
-          echo AZURE_STORAGE_TABLE_SAS_TOKEN="$AZURE_STORAGE_TABLE_SAS_TOKEN" >> production.env
+          echo "AZURE_STORAGE_TABLE_SAS_TOKEN=${{ secrets.AZURESASTOKEN }}" > production.env
           echo "cat production.env"
           cat production.env
-          echo "ls -a ."
-          ls -a .
+          echo "ls -force ."
+          ls -force .
 
       - name: npm install, build, and test
         run: |
