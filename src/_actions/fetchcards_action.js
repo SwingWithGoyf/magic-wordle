@@ -14,9 +14,9 @@ export function downloadCardList(setListStr) {
     return (dispatch) => {
         dispatch(request());
 
-        // todo add call to storage to see when we last fetched from scryfall - if less than a week ago, skip the fetch
         let cacheStale = false;
 
+        // check whether we need to refresh our table cache of cards (conditions: either table is missing or last fetch was >7 days ago)
         NeedToRefreshCardCache((cacheCheckError, cacheCheckFlag) => {
             if (!cacheCheckError) {
                 cacheStale = cacheCheckFlag;

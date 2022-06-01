@@ -68,7 +68,9 @@ export function CacheCardsToStorage(allCards, callback) {
 
       // below code finds the unique sets in the list
       let uniqueSets = [...new Set(taskList.map(item=>item.set))];
-      let setsAdded = 0;
+
+      let promises = [];
+
       for(let i = 0; i < uniqueSets.length; i++) {
         let cardsForCurSet = taskList.filter((item) => item.set === uniqueSets[i]);
         let curBatch = [];
@@ -85,17 +87,24 @@ export function CacheCardsToStorage(allCards, callback) {
           }
         }
 
-        AddDataInBatch(curBatch, CardTableName, (addDataError) => {
-          if (addDataError) {
-            callback(addDataError);
-          } else {
-            setsAdded++;
-            if (setsAdded === uniqueSets.length) {
-              callback(null);
-            }
-          }          
-        });
-      }      
+        promises.push(
+          AddDataInBatch(curBatch, CardTableName, (addDataError) => {
+            if (addDataError) {
+              callback(addDataError);
+            }          
+          })
+        );
+      }
+
+      // fire off all the promises to add the data
+      let setsAdded = 0;
+      Promise.all(promises)
+        .then((responses) => responses.forEach(() => {
+          setsAdded++;
+          if (setsAdded === uniqueSets.length) {
+            callback(null);
+          }
+        }));
     });    
   });
 }
