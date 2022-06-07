@@ -19,6 +19,9 @@
 .env.production.local
 development.env
 production.env
+web.config
+WordleProd.zip
+Deploy.ps1
 
 npm-debug.log*
 yarn-debug.log*
