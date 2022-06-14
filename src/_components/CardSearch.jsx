@@ -28,7 +28,7 @@ class CardSearch extends React.Component {
   }
 
   saveGuess(cardName) {
-    //this.props.makeGuess(cardName); // not impl yet
+    this.props.onMakeGuess(cardName);
     console.log(`Guessed: ${cardName}`);
     this.setState({selectedIndex: 0, currentGuess: ''});  // clear current guess so they can make another one
   }
