@@ -53,6 +53,9 @@ export function downloadCardList(setListStr) {
                                     if (json && json.data) {
                                         for (let j = 0; j < json.data.length; j++) {
                                             let curObj = json.data[j];
+                                            if (curObj.object !== "card") {
+                                                continue;   // don't process non cards
+                                            }
                                             let cardName = curObj.name;
                                             if (cardName.startsWith('A-')) {
                                                 cardName = cardName.substring(2);
@@ -71,7 +74,13 @@ export function downloadCardList(setListStr) {
                                                 {
                                                     name: cardName, 
                                                     image_uri: curImageUri,
-                                                    card_obj: curObj
+                                                    cmc: curObj.cmc,
+                                                    rarity: curObj.rarity,
+                                                    released: curObj.released_at,
+                                                    color: curObj.colors,
+                                                    type: curObj.type_line,
+                                                    scryfall_uri: curObj.uri,
+                                                    set: curObj.set
                                                 }
                                             );
                                         }
@@ -116,11 +125,14 @@ export function downloadCardList(setListStr) {
                             allCardsData.push(
                                 {
                                     name: cardName, 
-                                    image_uri: null,    // see todo above
-                                    card_obj: null,      // see todo above
+                                    image_uri: curCard.ImageUrl,
                                     cmc: curObj.Cmc,
                                     rarity: curObj.Rarity,
-                                    released: curObj.ReleaseDate
+                                    released: curObj.ReleaseDate,
+                                    color: curObj.Color,
+                                    type: curObj.Type,
+                                    scryfall_uri: curObj.ScryfallUri,
+                                    set: curObj.partitionKey
                                 }
                             );
                         }
