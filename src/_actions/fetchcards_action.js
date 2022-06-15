@@ -117,7 +117,10 @@ export function downloadCardList(setListStr) {
                                 {
                                     name: cardName, 
                                     image_uri: null,    // see todo above
-                                    card_obj: null      // see todo above
+                                    card_obj: null,      // see todo above
+                                    cmc: curObj.Cmc,
+                                    rarity: curObj.Rarity,
+                                    released: curObj.ReleaseDate
                                 }
                             );
                         }

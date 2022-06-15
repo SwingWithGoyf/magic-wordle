@@ -36,14 +36,17 @@ class GuessTable extends React.Component {
               <tr>
                 <th>Card Name</th>
                 <th>Mana Value</th>
+                <th>Rarity</th>
+                <th>Released</th>
               </tr>
             </thead>
             <tbody>
               {savedGuessesSoFar.map((item) => 
                 <tr key={item}>
                   <td>{item}</td>
-                  <td>Placeholder</td>
-                  {/* <td>{cardData && cardData.filter((element) => element.name === item).Cmc._}</td> */}
+                  <td>{cardData.filter((element) => element.name === item)[0].cmc}</td>
+                  <td>{cardData.filter((element) => element.name === item)[0].rarity}</td>
+                  <td>{cardData.filter((element) => element.name === item)[0].released}</td>
                 </tr>
               )}
             </tbody>
