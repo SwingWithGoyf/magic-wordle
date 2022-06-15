@@ -77,8 +77,16 @@ export async function CreateTableIfNotExists(tableName, callback) {
     }
     catch(error) {
       curError = error.message;
-      console.log(error);
+      if (!curError.includes('TableBeingDeleted')) {  // don't log "expected error"
+        console.log(error);
+      }
     }
+// If you want to avoid the ugly red logs in application insights you can write your own CreateIfNotExists: if (!table.Exists()) { await table.CreateAsync(); } – 
+// Crhistian Ramirez
+//  May 29, 2020 at 15:42
+
+// idea would be we should call Table.Exists in a loop instead, so we avoid the ugly red logs...
+
     if (curError == null) {
       break;
     } else if (curError.includes('TableBeingDeleted')) {

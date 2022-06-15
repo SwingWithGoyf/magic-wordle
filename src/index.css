@@ -53,10 +53,20 @@ code {
   width: auto;
 }
 
+.guessTableContainer {
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+  min-width: 600px;
+}
+
 .guessTable {
   justify-content: center;
   flex-direction: column;
   display: flex;
+  flex-direction: column;
+  font-size: 24px;
 }
 
 .clearButton {

@@ -63,11 +63,16 @@ class HomePage extends React.Component {
             loading={loading}
           />
         </div>
-        <GuessTable 
-          latestGuess={this.state.currentGuess} 
-          cardData={cardData}
-          loading={loading}
-        />
+        <br />
+        <br />
+        <br />
+        <div className="guessTableContainer">
+          <GuessTable 
+            latestGuess={this.state.currentGuess} 
+            cardData={cardData}
+            loading={loading}
+          />
+        </div>
         <div className="clearButton">
           <Button onClick={this.clearGuesses.bind(this)}>Clear Guesses</Button>  {/* temp button for testing */}
         </div>

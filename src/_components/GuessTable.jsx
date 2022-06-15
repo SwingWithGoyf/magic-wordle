@@ -30,23 +30,30 @@ class GuessTable extends React.Component {
 
     return (
       <div className='guessTable'>
+        <b>Guesses so far:</b>
         {cardData && cardData.length > 0 && 
           <Table striped bordered hover>
             <thead>
               <tr>
                 <th>Card Name</th>
+                <th>Image</th>
                 <th>Mana Value</th>
                 <th>Rarity</th>
                 <th>Released</th>
+                <th>Type</th>
+                <th>Color(s)</th>
               </tr>
             </thead>
             <tbody>
               {savedGuessesSoFar.map((item) => 
                 <tr key={item}>
                   <td>{item}</td>
+                  <td><img src={cardData.filter((element) => element.name === item)[0].image_uri} alt={`card art for ${item}`}></img></td>
                   <td>{cardData.filter((element) => element.name === item)[0].cmc}</td>
                   <td>{cardData.filter((element) => element.name === item)[0].rarity}</td>
                   <td>{cardData.filter((element) => element.name === item)[0].released}</td>
+                  <td>{cardData.filter((element) => element.name === item)[0].type}</td>
+                  <td>{cardData.filter((element) => element.name === item)[0].color}</td>
                 </tr>
               )}
             </tbody>

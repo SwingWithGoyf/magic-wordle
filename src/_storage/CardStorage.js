@@ -51,17 +51,19 @@ export function CacheCardsToStorage(allCards, callback) {
         if (modifiedCardName.includes('//')) {
           modifiedCardName = modifiedCardName.substr(0, modifiedCardName.indexOf('//') - 1);
         }
-        taskList.push({"set": curCard.card_obj.set, "data": ["create", 
+        taskList.push({"set": curCard.set, "data": ["create", 
           {
-            partitionKey: curCard.card_obj.set,
+            partitionKey: curCard.set,
             rowKey: modifiedCardName,    
-            CardName: curCard.card_obj.name,
-            Cmc: curCard.card_obj.cmc,
-            //todo: colors (handle array)
-            Rarity: curCard.card_obj.rarity,
-            Type: curCard.card_obj.type_line,
-            ReleaseDate: curCard.card_obj.released_at,
-            ScryfallUrl: curCard.card_obj.uri
+            CardName: curCard.name,
+            Cmc: curCard.cmc,
+            //todo: colors (handle array), probably do this on the receiving action or further downstream?  seems ok to store as array...
+            Rarity: curCard.rarity,
+            ReleaseDate: curCard.released,
+            ScryfallUrl: curCard.scryfall_uri,
+            Type: String(curCard.type),
+            Color: String(curCard.color),
+            ImageUrl: curCard.image_uri
           }
         ]});
       }
@@ -130,6 +132,9 @@ export function NeedToRefreshCardCache(callback) {
         QueryEntities(odata`RowKey eq 'Grizzly Bears'`, CardTableName, (queryError, queryResults) => {
           if (queryError) {
             callback(queryError, false);
+          } else if (queryResults.length === 0) {
+            console.log("Table cache has no rows, kicking off refresh!");
+            callback(null, true);
           } else {
             if (queryResults && queryResults.length > 0) {
               console.log(queryResults[0].timestamp);
