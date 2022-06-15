@@ -14,10 +14,6 @@ class GuessTable extends React.Component {
     // this.onKeyUp = this.onKeyUp.bind(this);
   }
 
-  componentDidMount() {
-    //this.props.getCards();
-  }
-
   render() {
     const { guessesSoFar } = this.state;
     const { cardData } = this.props;
@@ -34,22 +30,25 @@ class GuessTable extends React.Component {
 
     return (
       <div className='guessTable'>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Card Name</th>
-              <th>Mana Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {savedGuessesSoFar.map((item) => 
+        {cardData && cardData.length > 0 && 
+          <Table striped bordered hover>
+            <thead>
               <tr>
-                <td>{item}</td>
-                <td>{cardData && cardData.filter((element) => element.name === item).Cmc._}</td>
+                <th>Card Name</th>
+                <th>Mana Value</th>
               </tr>
-            )}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {savedGuessesSoFar.map((item) => 
+                <tr key={item}>
+                  <td>{item}</td>
+                  <td>Placeholder</td>
+                  {/* <td>{cardData && cardData.filter((element) => element.name === item).Cmc._}</td> */}
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        }
       </div>
     );
   }

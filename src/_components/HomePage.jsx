@@ -53,7 +53,7 @@ class HomePage extends React.Component {
 
     return (
       <div className="mainContent">
-        <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar className="navbarBrand" bg="dark" variant="dark" expand="lg">
           <Navbar.Brand href="#home" onClick={() => this.setState({ currentTab: 'drafts' })}>Historic Magic 'Enchant Worldle'</Navbar.Brand>
         </Navbar>
         <div className="searchContainer">

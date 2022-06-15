@@ -37,20 +37,19 @@ code {
 .cardGuessContainer {
   flex-direction: column;
   display: flex;
-  min-width: 500px;
+  min-width: 600px;
 }
 
 .cardGuess {
   align-items: center;
-  font-size: 32px;
+  font-size: 24px;
   justify-content: center;
   flex-direction: row;
   display: flex;
 }
 
 .cardSearchDropdown {
-  height: 300px;
-  font-size: 32px;
+  font-size: 24px;
   width: auto;
 }
 
@@ -70,6 +69,20 @@ code {
 .dropdown-menu {
   max-height: 300px;
   overflow-y: scroll;
-  font-size: 32px;
+  font-size: 24px;
   z-index: -1;
+}
+
+.navbarBrand {
+  display:flex;
+  justify-content: center;
+  vertical-align:center;
+  align-items: center;
+}
+
+.imageBackground {
+  display:flex;
+  justify-content: center;
+  vertical-align:center;
+  align-items: center;
 }
