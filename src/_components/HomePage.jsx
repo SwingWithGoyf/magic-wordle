@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Navbar, Row, Col } from 'react-bootstrap';
+import { Button, Navbar } from 'react-bootstrap';
 
-import CardSearch from '../_containers/CardSearch';
+import CardSearch from './CardSearch';
 import GuessTable from './GuessTable';
 
 ////////////////////
@@ -32,22 +32,45 @@ class HomePage extends React.Component {
     this.setState({ currentGuess: cardName, guessesSoFar: guessesSoFar });
   }
 
+  componentDidMount() {
+    this.props.getCards();
+  }
+
   render() {
+
+    const { cardsdownload } = this.props;
+    let cardData = [];
+    let loading = false;
+
+    if (cardsdownload) {
+      if (cardsdownload.card_data) {
+        cardData = cardsdownload.card_data;
+      }
+      if (cardsdownload.loading) {
+        loading = cardsdownload.loading;
+      }
+    }
 
     return (
       <div className="mainContent">
-        <Row>
-          <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Navbar bg="dark" variant="dark" expand="lg">
-              <Navbar.Brand href="#home" onClick={() => this.setState({ currentTab: 'drafts' })}>Historic Magic 'Enchant Worldle'</Navbar.Brand>
-            </Navbar>
-            <div>
-              <CardSearch onMakeGuess={this.makeGuess.bind(this)} />
-              <GuessTable latestGuess={this.state.currentGuess} />
-              <Button onClick={this.clearGuesses.bind(this)}>Clear Guesses</Button>  {/* temp button for testing */}
-            </div>
-          </Col>
-        </Row>
+        <Navbar bg="dark" variant="dark" expand="lg">
+          <Navbar.Brand href="#home" onClick={() => this.setState({ currentTab: 'drafts' })}>Historic Magic 'Enchant Worldle'</Navbar.Brand>
+        </Navbar>
+        <div className="searchContainer">
+          <CardSearch 
+            onMakeGuess={this.makeGuess.bind(this)} 
+            cardData={cardData}
+            loading={loading}
+          />
+        </div>
+        <GuessTable 
+          latestGuess={this.state.currentGuess} 
+          cardData={cardData}
+          loading={loading}
+        />
+        <div className="clearButton">
+          <Button onClick={this.clearGuesses.bind(this)}>Clear Guesses</Button>  {/* temp button for testing */}
+        </div>
       </div >
     );
   }

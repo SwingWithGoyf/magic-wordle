@@ -18,11 +18,58 @@ code {
   justify-content: center;
 }
 
+.mainContent {
+  flex-direction: column;
+  justify-content: center;
+}
+
 .navbar-brand {
   font-size: 28px;
 }
 
+.searchContainer {
+  align-content: center;
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+}
+
+.cardGuessContainer {
+  flex-direction: column;
+  display: flex;
+  min-width: 500px;
+}
+
 .cardGuess {
+  align-items: center;
   font-size: 32px;
-  width: 50%;
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+}
+
+.cardSearchDropdown {
+  height: 300px;
+  font-size: 32px;
+  width: auto;
+}
+
+.guessTable {
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
+}
+
+.clearButton {
+  justify-content: center;
+  flex-direction: row;
+  display: flex;
+  width: auto;
+}
+
+.dropdown-menu {
+  max-height: 300px;
+  overflow-y: scroll;
+  font-size: 32px;
+  z-index: -1;
 }

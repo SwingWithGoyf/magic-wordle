@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { history } from '../_helpers/history';
 
-import HomePage from './HomePage';
+import HomePage from '../_containers/HomePage';
 
 class App extends React.Component {
 

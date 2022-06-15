@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { downloadCardList } from '../_actions/fetchcards_action';
 
-import CardSearchComponent from '../_components/CardSearch';
+import HomePageComponent from '../_components/HomePage';
 
 const mapStateToProps = (state) => {
   return {
@@ -19,6 +19,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   };
 };
 
-const CardSearch = connect(mapStateToProps, mapDispatchToProps)(CardSearchComponent);
+const HomePage = connect(mapStateToProps, mapDispatchToProps)(HomePageComponent);
 
-export default CardSearch;
+export default HomePage;

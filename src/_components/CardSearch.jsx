@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dropdown, Form } from 'react-bootstrap';
+import Select from 'react-select';
 
 class CardSearch extends React.Component {
 
@@ -45,7 +46,7 @@ class CardSearch extends React.Component {
         }
       // check for down arrow key
       } else if (event.keyCode === 40) {
-        if (this.props.cardsdownload && this.props.cardsdownload.card_data && curSelectedIndex < (this.props.cardsdownload.card_data.length - 1)) {
+        if (this.props.cardData && curSelectedIndex < (this.props.cardData.length - 1)) {
           curSelectedIndex++;
           this.setState({selectedIndex: curSelectedIndex});
         }
@@ -56,37 +57,46 @@ class CardSearch extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.getCards();
-  }
-
   render() {
-    const { cardsdownload } = this.props;
+    const { cardData } = this.props;
+    const { loading } = this.props;
     let itemIndex = 0;
     let filteredCardList = [];
     let curSelectedCard = '';
+    let dropdownIndex = 0;
+    let dropdownOptions = [];
+    let curSelectedOption = null;
 
-    if (cardsdownload && cardsdownload.card_data) {
-      filteredCardList = cardsdownload.card_data.filter((element) => element.name.toLowerCase().includes(this.state.currentGuess.toLowerCase()));
-      if (filteredCardList && filteredCardList.length > 0) {
+    if (cardData) {
+      filteredCardList = cardData.filter((element) => element.name.toLowerCase().includes(this.state.currentGuess.toLowerCase()));
+      if (filteredCardList && filteredCardList.length > this.state.selectedIndex) {
         curSelectedCard = filteredCardList[this.state.selectedIndex].name;
+        filteredCardList.map((item) => dropdownOptions.push({value: dropdownIndex++, label: item.name}));
+      }
+      let filteredOptions = dropdownOptions.filter((element) => this.state.selectedIndex === element.value);
+      if (filteredOptions && filteredOptions.length > 0) {
+        curSelectedOption = dropdownOptions.filter((element) => this.state.selectedIndex === element.value)[0];
       }
     }
     
     return (
-      <div className='cardGuess'>
-      {cardsdownload && cardsdownload.loading && <em>Loading...</em>}
-      {cardsdownload && cardsdownload.card_data && 
-        <div>
-          <b>Guess:</b>
-            <Form.Control
-              onChange={this.changeGuess.bind(this)}
-              value={this.state.currentGuess}
-              onKeyDown={this.onKeyUp.bind(this, curSelectedCard)}
-            />
+      <div className="cardGuessContainer">
+      {loading && <em>Loading...</em>}
+      {cardData && 
+        <div className="cardGuessContainer">
+          <div className="cardGuess">
+            <b>Guess:</b>
+              <Form.Control
+                onChange={this.changeGuess.bind(this)}
+                value={this.state.currentGuess}
+                onKeyDown={this.onKeyUp.bind(this, curSelectedCard)}
+              />
+          </div>
+          <div className="cardSearchDropdown">
             {String(this.state.currentGuess).length > 2 
             ?
-              <Dropdown.Menu show>
+            <div>
+              {/* <Dropdown.Menu show align="start">
                 {filteredCardList.map((item) => 
                   <Dropdown.Item 
                     active={itemIndex === this.state.selectedIndex ? true : false} 
@@ -94,19 +104,24 @@ class CardSearch extends React.Component {
                     onClick={this.makeGuess.bind(this)}>{item.name}
                   </Dropdown.Item>
                 )}
-              </Dropdown.Menu>
-            // <Select 
-            //   options={cardSearchOptions}
-            //   onInputChange={this.changeGuessDropdown.bind(this)}
-            //   // onChange TODO: this will fire when they actually pick a guess, we'll need to commit it to the guest table
-            //   defaultInputValue={this.state.currentGuess}
-            //   menuIsOpen={true}
-            //   isSearchable={false}
-            //   controlShouldRenderValue={false}
-            // />
+              </Dropdown.Menu> */}
+              <Select
+                  options={dropdownOptions}
+                  menuIsOpen={true}
+                  isSearchable={false}
+                  defaultValue={curSelectedOption}
+                  selectedIndex={curSelectedOption && curSelectedOption.value}
+                  hideSelectedOptions
+              />
+              </div>
             : 
-              <div />
+                  <div>
+              <Select
+                  options={dropdownOptions}
+              />
+              </div>
             }
+          </div>
         </div>
       }
       </div>
